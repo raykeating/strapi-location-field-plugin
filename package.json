@@ -1,0 +1,27 @@
+{
+  "name": "location-field",
+  "version": "0.0.0",
+  "description": "This is the description of the plugin.",
+  "strapi": {
+    "name": "location-field",
+    "description": "Description of Location Field plugin",
+    "kind": "plugin",
+    "displayName": "Location Field"
+  },
+  "dependencies": {
+    "@googlemaps/js-api-loader": "^1.15.1"
+  },
+  "author": {
+    "name": "A Strapi developer"
+  },
+  "maintainers": [
+    {
+      "name": "A Strapi developer"
+    }
+  ],
+  "engines": {
+    "node": ">=14.19.1 <=18.x.x",
+    "npm": ">=6.0.0"
+  },
+  "license": "MIT"
+}
