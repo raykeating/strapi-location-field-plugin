@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import { Loader } from "@googlemaps/js-api-loader";
 
-import { Combobox, ComboboxOption, NumberInput, Flex, Box } from "@strapi/design-system";
+import { NumberInput, Flex, Box } from "@strapi/design-system";
+
+import { Combobox } from "@strapi/design-system";
+import { ComboboxOption } from "@strapi/design-system";
 
 import { request } from "@strapi/helper-plugin";
 
 // https://www.google.com/maps/search/?api=1&query=Google&query_place_id=<place_id>
 
 export default function Input({ onChange, value, name, attribute, error, required }) {
+
   const [apiKey, setApiKey] = useState(null);
   const [fields, setFields] = useState(null);
   const [loader, setLoader] = useState(null);
@@ -46,13 +50,7 @@ export default function Input({ onChange, value, name, attribute, error, require
     }
   }, [fields]);
 
-  const initialPredictions = [];
-
-  if (value !== "null") {
-    initialPredictions.push(JSON.parse(value));
-  }
-
-  const [predictions, setPredictions] = useState(initialPredictions);
+  const [predictions, setPredictions] = useState([]);
 
   const handleInputChange = (e) => {
     if (!e.target.value) {
@@ -65,7 +63,7 @@ export default function Input({ onChange, value, name, attribute, error, require
         },
         true
       );
-      setPredictions(initialPredictions);
+      setPredictions([]);
       return;
     }
     const getSuggestions = async () => {
@@ -79,8 +77,9 @@ export default function Input({ onChange, value, name, attribute, error, require
               console.error(status);
               return;
             }
-            // this line fixed, not sure why
-            setPredictions([(value !== "null" && JSON.parse(value).place_id !== "no_location") && JSON.parse(value), ...predictions.filter((prediction) => prediction.place_id !== JSON.parse(value).place_id)]);
+            if (predictions.length > 0) {
+              setPredictions(predictions);
+            }
           }
         );
       });
@@ -160,15 +159,10 @@ export default function Input({ onChange, value, name, attribute, error, require
 
   const createNewLocation = (value) => {
     const newPrediction = { description: value, place_id: "custom_location", lat: null, lng: null };
-
-    setPredictions((preds) => [...preds, newPrediction]);
-
     setLocationValue(newPrediction, true);
   };
-  
 
   return (
-    
     <Flex direction="column" alignItems="start" gap={3}>
       <Box width="100%">
         {loader && apiKey && fields && (
@@ -183,9 +177,9 @@ export default function Input({ onChange, value, name, attribute, error, require
             value={
               value !== "null" && JSON.parse(value).place_id !== "no_location"
                 ? JSON.parse(value).place_id
-                : null
+                : ""
             }
-            onClear={() =>
+            onClear={() => {
               setLocationValue(
                 {
                   description: "",
@@ -194,17 +188,36 @@ export default function Input({ onChange, value, name, attribute, error, require
                   lng: null,
                 },
                 true
-              )
-            }
+              );
+            }}
             creatable
             createMessage={(e) => `Create Location: "${e}"`}
             onCreateOption={(e) => createNewLocation(e)}
           >
-            {predictions.map((prediction) => (
-              <ComboboxOption key={prediction.place_id} value={prediction.place_id}>
-                {prediction.description}
-              </ComboboxOption>
-            ))}
+            {predictions
+              .map((prediction) => (
+                <ComboboxOption key={prediction.place_id} value={prediction.place_id}>
+                  {prediction.description}
+                </ComboboxOption>
+              ))
+              // the following lines are required to add the "no location" and "custom location" options
+              // without them, the combobox breaks
+              .concat(
+                [<div key="no_location" value="no_location" style={{display: "none"}}>
+                  No Location
+                </div>]
+              )
+              .concat(
+                [<div key="custom_location" value="custom_location" style={{display: "none"}}>
+                  {(value !== "null" && JSON.parse(value).place_id === "custom_location") ? JSON.parse(value).description : "Custom Location"}
+                </div>]
+              ).concat(
+                [
+                  <div key="selected" value={value !== "null" ? JSON.parse(value).place_id : ""} style={{display: "none"}}>
+                    Selected Location
+                  </div>
+                ]
+              )}
           </Combobox>
         )}
       </Box>
