@@ -29,7 +29,8 @@ module.exports = {
       fields: ["photo", "rating"], // optional
       googleMapsApiKey: "your google api key", //You need to enable "Autocomplete API" and "Places API" in your Google Cloud Console
     },
-  }
+  },
+  // .. your other plugin configurations
 };
 ```
 > :warning: It is strongly recommended to store your API key using an environment variable and not directly in plugins.js.
