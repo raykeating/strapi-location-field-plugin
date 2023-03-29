@@ -1,6 +1,6 @@
 # Strapi Location Field Plugin
 
-This is a plugin for [Strapi](https://strapi.io/) that adds a custom location field. Simply begin typing in a location and select it from an autocomplete dropdown list. The autocomplete functionality is powered by the Google Places API, which requires an API key.  Custom locations are also possible
+This is a plugin for [Strapi](https://strapi.io/) that adds a custom location field. Simply begin typing in a location and select it from an autocomplete dropdown list. The autocomplete functionality is powered by the Google Places API, which requires an API key.
 
 ![image](https://user-images.githubusercontent.com/29098307/228688554-9b1f3f01-cad6-4770-9f55-8879322be90c.png)
 *Strapi Interface*
