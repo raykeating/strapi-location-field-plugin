@@ -6,6 +6,7 @@ This is a plugin for [Strapi](https://strapi.io/) that adds a custom location fi
 *Strapi Interface*
 
 ![image](https://user-images.githubusercontent.com/29098307/228693688-919181b2-83f6-47c1-9a80-77910bec4969.png)
+
 *API Response*
 
 ## Installation
