@@ -214,7 +214,7 @@ export default function Input({ onChange, value, name, attribute, error, require
               ).concat(
                 [
                   <div key="selected" value={value !== "null" ? JSON.parse(value).place_id : ""} style={{display: "none"}}>
-                    {JSON.parse(value).description}
+                    {value !== "null" ? JSON.parse(value).description : ""}
                   </div>
                 ]
               )}
