@@ -28,6 +28,10 @@ export default function Input({ onChange, value, name, attribute, error, require
   React.useEffect(() => {
     getConfigDetails().then((config) => {
       setApiKey(config.googleMapsApiKey);
+      config.fields = config.fields || [];
+      if (!config.fields.includes("geometry")) {
+        config.fields.push("geometry");
+      }
       setFields(config.fields);
     });
   }, []);
@@ -99,6 +103,7 @@ export default function Input({ onChange, value, name, attribute, error, require
             console.error(status);
             return;
           }
+          
           selectedPrediction.details = place;
 
           targetValue = JSON.stringify({
