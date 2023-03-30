@@ -104,6 +104,13 @@ export default function Input({ onChange, value, name, attribute, error, require
             return;
           }
           
+          // if "photo" is in the fields array, call "getUrl()" for each photo in the response
+          if (fields.includes("photo")) {
+            place.photos.forEach((photo) => {
+              photo.url = photo.getUrl();
+            });
+          }
+          
           selectedPrediction.details = place;
 
           targetValue = JSON.stringify({
