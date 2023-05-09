@@ -15,7 +15,7 @@ API Response
 To install this package, run the following command in an existing strapi project:
 
 ```sh
-npm install strapi-location-field-plugin 
+npm install strapi-location-field-plugin
 ```
 
 ## Usage
@@ -28,19 +28,35 @@ module.exports = {
     enabled: true,
     config: {
       fields: ["photo", "rating"], // optional
-      googleMapsApiKey: "your google api key", //You need to enable "Autocomplete API" and "Places API" in your Google Cloud Console
+      // You need to enable "Autocomplete API" and "Places API" in your Google Cloud Console
+      googleMapsApiKey: env("GOOGLE_MAPS_API_KEY"),
+      // See https://developers.google.com/maps/documentation/javascript/reference/places-autocomplete-service#AutocompletionRequest
+      autocompletionRequestOptions: {},
     },
   },
   // .. your other plugin configurations
 };
 ```
-> :warning: It is strongly recommended to store your API key using an environment variable and not directly in plugins.js.
 
-Note: the config.fields value can be set to an array of options (strings) containing any fields you'd like to be returned. The options that Google allows can be found [here](https://developers.google.com/maps/documentation/places/web-service/details) or in the screenshot below.  When set, the information relevant to those specific fields will be accessible in the API response under the "details" key.  The "geometry" field is enabled by default.
+Note: the `config.fields` value can be set to an array of options (strings) containing any fields you'd like to be returned. The options that Google allows can be found [here](https://developers.google.com/maps/documentation/places/web-service/details) or in the screenshot below.  When set, the information relevant to those specific fields will be accessible in the API response under the "details" key.  The `geometry` field is always enabled.
 
 ![image](https://user-images.githubusercontent.com/29098307/228680235-992c95c5-5b22-4ce1-9128-188825831e51.png)
 
-> ℹ️ Please note: some fields may not return the expected response.  Currently only the "photo", "rating", and "geometry" fields have been tested.
+> ℹ️ Please note: some fields may not return the expected response.  Currently only the `photo`, `rating`, and `geometry` fields have been tested.
+
+`autocompletionRequestOptions` allows you to customize the search behavior by overriding the options used when autocompletion requests are made. The [Autocomplete API documentation](https://developers.google.com/maps/documentation/javascript/reference/places-autocomplete-service#AutocompletionRequest) lists all the available options. For example, this configuration returns autocomplete results in Spanish and biases the search closer to the caller's IP address:
+
+```javascript
+{
+  config: {
+    googleMapsApiKey: env("GOOGLE_MAPS_API_KEY"),
+    autocompletionRequestOptions: {
+      language: 'es',
+      locationBias: 'IP_BIAS',
+    },
+  },
+}
+```
 
 
 You'll also need to modify the `/config/middlewares.js` file
