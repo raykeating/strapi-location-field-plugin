@@ -15,14 +15,15 @@ export default function Input({ onChange, value, name, attribute, error, require
   const [apiKey, setApiKey] = useState(null);
   const [fields, setFields] = useState(null);
   const [loader, setLoader] = useState(null);
+  const [autocompletionRequestOptions, setAutocompletionRequestOptions] = useState(null);
 
   const getConfigDetails = async () => {
     const { signal } = new AbortController();
-    const { fields, googleMapsApiKey } = await request("/location-field/config", {
+    const { fields, autocompletionRequestOptions, googleMapsApiKey } = await request("/location-field/config", {
       method: "GET",
       signal,
     });
-    return { fields, googleMapsApiKey };
+    return { fields, autocompletionRequestOptions, googleMapsApiKey };
   };
 
   React.useEffect(() => {
@@ -33,6 +34,7 @@ export default function Input({ onChange, value, name, attribute, error, require
         config.fields.push("geometry");
       }
       setFields(config.fields);
+      setAutocompletionRequestOptions(config.autocompletionRequestOptions);
     });
   }, []);
 
@@ -75,7 +77,7 @@ export default function Input({ onChange, value, name, attribute, error, require
         let sessionToken = new google.maps.places.AutocompleteSessionToken();
         let service = new google.maps.places.AutocompleteService();
         service.getPlacePredictions(
-          { input: e.target.value, sessionToken: sessionToken },
+          { ...autocompletionRequestOptions, input: e.target.value, sessionToken: sessionToken },
           (predictions, status) => {
             if (status !== google.maps.places.PlacesServiceStatus.OK) {
               console.error(status);
@@ -103,14 +105,13 @@ export default function Input({ onChange, value, name, attribute, error, require
             console.error(status);
             return;
           }
-          
           // if "photo" is in the fields array, call "getUrl()" for each photo in the response
           if (fields.includes("photo") && place?.photos) {
             place.photos.forEach((photo) => {
               photo.url = photo.getUrl();
             });
           }
-          
+
           selectedPrediction.details = place;
 
           targetValue = JSON.stringify({
