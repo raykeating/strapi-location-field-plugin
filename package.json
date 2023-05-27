@@ -1,6 +1,6 @@
 {
   "name": "strapi-location-field-plugin",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "A plugin to add a location field to Strapi",
   "strapi": {
     "name": "location-field",
