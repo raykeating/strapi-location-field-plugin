@@ -184,13 +184,6 @@ export default function Input({
 		let targetValue = null;
 		if (value !== "null") {
 			targetValue = JSON.parse(value);
-		} else {
-			targetValue = {
-				description: "",
-				place_id: "no_location",
-				lat: null,
-				lng: null,
-			};
 		}
 
 		if (type === "lat") {
@@ -223,7 +216,7 @@ export default function Input({
 						}}
 						onInputChange={(e) => handleInputChange(e)}
 						value={
-							value !== "null" && JSON.parse(value).place_id !== "no_location"
+							value !== "null" && value
 								? JSON.parse(value).place_id
 								: ""
 						}
@@ -245,17 +238,8 @@ export default function Input({
 									{prediction.description}
 								</ComboboxOption>
 							))
-							// the following lines are required to add the "no location" and "custom location" options
-							// without them, the combobox breaks
-							.concat([
-								<div
-									key="no_location"
-									value="no_location"
-									style={{ display: "none" }}
-								>
-									No Location
-								</div>,
-							])
+							// the following lines are required to add the "custom location" options
+							// without it, the combobox breaks
 							.concat([
 								<div
 									key="custom_location"
