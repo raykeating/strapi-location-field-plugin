@@ -23,19 +23,19 @@ npm install strapi-location-field-plugin
 To enable the plugin, you'll need to include the following code in your Strapi project, in the `/config/plugins.js` file:
 
 ```javascript
-module.exports = {
-  "location-field": {
-    enabled: true,
-    config: {
-      fields: ["photo", "rating"], // optional
-      // You need to enable "Autocomplete API" and "Places API" in your Google Cloud Console
-      googleMapsApiKey: env("GOOGLE_MAPS_API_KEY"),
-      // See https://developers.google.com/maps/documentation/javascript/reference/places-autocomplete-service#AutocompletionRequest
-      autocompletionRequestOptions: {},
-    },
-  },
-  // .. your other plugin configurations
-};
+module.exports = ({ env }) => ({
+	"location-field": {
+		enabled: true,
+		config: {
+			fields: ["photo", "rating"], // optional
+			// You need to enable "Autocomplete API" and "Places API" in your Google Cloud Console
+			googleMapsApiKey: env("GOOGLE_MAPS_API_KEY"),
+			// See https://developers.google.com/maps/documentation/javascript/reference/places-autocomplete-service#AutocompletionRequest
+			autocompletionRequestOptions: {},
+		},
+	},
+	// .. your other plugin configurations
+});
 ```
 
 Note: the `config.fields` value can be set to an array of options (strings) containing any fields you'd like to be returned. The options that Google allows can be found [here](https://developers.google.com/maps/documentation/places/web-service/details) or in the screenshot below.  When set, the information relevant to those specific fields will be accessible in the API response under the "details" key.  The `geometry` field is always enabled.
