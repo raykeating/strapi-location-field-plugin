@@ -82,6 +82,8 @@ module.exports = [
   "strapi::public",
 ];
 ```
+After installation and configuration, build the project with `npm run build` or `yarn build`
+
 
 ### Additional Information
 - This plugin is not affiliated with Google in any way.
