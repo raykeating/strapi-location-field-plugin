@@ -1,7 +1,5 @@
 # Strapi Location Field Plugin
 
-[Buy me a coffee ☕💜](https://www.buymeacoffee.com/raykeating)
-
 This is a plugin for [Strapi](https://strapi.io/) that adds a custom location field. Simply type in a location and select it from an autocomplete dropdown list. The autocomplete functionality is powered by the Google Places API, which requires an API key.
 
 Strapi Interface
@@ -89,4 +87,5 @@ After installation and configuration, build the project with `npm run build` or 
 
 ### Additional Information
 - This plugin is not affiliated with Google in any way.
-- This plugin is still in early development and may not be production-ready
+
+To Support: [https://www.buymeacoffee.com/raykeating](https://www.buymeacoffee.com/raykeating)
