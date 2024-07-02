@@ -38,6 +38,11 @@ module.exports = ({ env }) => ({
 });
 ```
 
+Make sure to add a line to your .env with your Google Maps API Key.  You must have the Places API enabled.
+```env
+GOOGLE_MAPS_API_KEY=your-api-key
+```
+
 Note: the `config.fields` value can be set to an array of options (strings) containing any fields you'd like to be returned. The options that Google allows can be found [here](https://developers.google.com/maps/documentation/places/web-service/details) or in the screenshot below.  When set, the information relevant to those specific fields will be accessible in the API response under the "details" key.  The `geometry` field is always enabled.
 
 ![image](https://user-images.githubusercontent.com/29098307/228680235-992c95c5-5b22-4ce1-9128-188825831e51.png)
