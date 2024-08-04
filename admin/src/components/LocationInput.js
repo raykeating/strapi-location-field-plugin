@@ -13,6 +13,7 @@ import { request } from "@strapi/helper-plugin";
 export default function Input({
 	onChange,
 	value,
+  disabled,
 	name,
 	attribute,
 	error,
@@ -210,6 +211,7 @@ export default function Input({
 						name="location"
 						error={error}
 						required={required}
+            disabled={disabled}
 						placeholder="Ex. 123 Street, Niagara Falls, ON"
 						onChange={(selection) => {
 							setLocationValue(selection);
@@ -270,6 +272,7 @@ export default function Input({
 						label="Latitude"
 						name="latitude"
 						placeholder="Ex. 43.123456"
+            disabled={disabled}
 						onValueChange={(e) => setCoordinates(e, "lat")}
 						value={value !== "null" ? JSON.parse(value).lat : null}
 					/>
@@ -278,6 +281,7 @@ export default function Input({
 						label="Longitude"
 						name="longitude"
 						placeholder="Ex. -79.123456"
+            disabled={disabled}
 						onValueChange={(e) => setCoordinates(e, "lng")}
 						value={value !== "null" ? JSON.parse(value).lng : null}
 					/>
